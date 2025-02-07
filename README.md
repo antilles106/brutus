@@ -58,9 +58,7 @@
  ```
 
 ### Environment without npm
-- Please execute brutus.exe (For Windows).
-- If you run \out\make\squirrel.windows\x64\brutus-1.0.0 Setup.exe, The program will be installed in "C:\Users\[Users]\AppData\Local\brutus".
-- After running Setup.exe, the internal DB will be removed. If you want to use the previous database, please backup "C:\Users\[Users]\AppData\Local\brutus\resources\sqlite3.db".
+- Please execute brutus-win32-64/brutus.exe (For Windows).
 
 ## How to use
 - "Show Problem": Put Pieces and Solution (in the Popeye style) and click "Show diagram and solution", and you can show the problem with py2web style.
