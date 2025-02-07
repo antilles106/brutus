@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  script.
+    var tm = document.getElementById("dbregistermenu");
+    tm.setAttribute("class","active item")
+  div(class="ui segment")
+    h2 Register to DB Finished! 
+
+    div(class="ui divider")
+    p
+      button(class="ui primary button", onclick="location.href='/dbregister'") Back to Register Page
+    p
+      button(class="ui negative button", onclick="location.href='/'") Back to Top

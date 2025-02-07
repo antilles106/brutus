@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  script.
+    var tm = document.getElementById("dbregistermenu");
+    tm.setAttribute("class","active item")
+  div(class="ui text container")
+    div(class="ui segment")
+      h2 Register to DB:
+
+      p Caution: Knight should be notated as 'S', not 'N'.
+
+      form(class="ui form",action="dbregisterfinish",method="POST")
+        div(class="three fields")
+          div(class="field")
+            label Authors:
+            input(type="text",name="authors",placeholder="Doe, John")
+          div(class="field")
+            label Source:
+            input(type="text",name="source",placeholder="The Problemist")
+          div(class="field")
+            label Date:
+            input(type="text",name="date",placeholder="2022-01-01")
+        div(class="two fields")
+          div(class="field")
+            label Tourney:
+            input(type="text",name="tourney",placeholder="Jane Doe 70 JT")
+          div(class="field")
+            label Distinction:
+            input(type="text",name="distinction",placeholder="1st Prize")
+        div(class="two fields")
+          div(class="field")
+            label FEN:
+            input(type="text",name="fen",placeholder="rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
+          div(class="field")
+            label Stipulation:
+            input(type="text", name="stip", placeholder="H#2")
+        div(class="field")
+          label Condition, Twin and Others:
+          textarea(rows="5",cols="30",name="conditions",placeholder="Condition Circe\nTwin Move d2 d3")
+        div(class="ui grid")
+          div(class="one column row")
+            div(class="right aligned column")
+              button(class="ui primary submit button", type="submit") Submit
+              button(class="ui negative button", onclick="location.href='/'") Back to Top
+      
+  script.
+      $('.ui.form').
+        form({
+          fields: {
+            fen: 'empty',
+            stip: 'empty'
+           }
+          });  
+
+
+    
+

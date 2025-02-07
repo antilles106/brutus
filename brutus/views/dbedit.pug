@@ -1,0 +1,78 @@
+extends layout
+
+block chessjs
+  - var cntnt=content;
+
+block content
+  div(class="ui text container")
+    div(class="ui segment")
+      h2 Edit DB:
+
+      p Caution: Knight should be notated as 'S', not 'N'.
+
+      form(class="ui form",action="dbeditfinish",method="POST")
+        div(class="field")
+          label ID:
+          div(class="ui disabled input")
+            input(type="text",name="id",value=editid,readonly)
+        div(class="three fields")
+          div(class="field")
+            label Authors:
+            input(type="text",name="authors",id="authorsinput")
+          div(class="field")
+            label Source:
+            input(type="text",name="source",id="sourceinput")
+          div(class="field")
+            label Date:
+            input(type="text",name="date",id="dateinput")
+        div(class="two fields")
+          div(class="field")
+            label Tourney:
+            input(type="text",name="tourney",id="tourneyinput")
+          div(class="field")
+            label Distinction:
+            input(type="text",name="distinction",id="distinctioninput")
+        div(class="two fields")
+          div(class="field")
+            label FEN:
+            input(type="text",name="fen",id="feninput")
+          div(class="field")
+            label Stipulation:
+            input(type="text", name="stip",id="stipinput")
+        div(class="field")
+          label Condition, Twin and Others:
+          textarea(rows="5",cols="30",name="conditions",id="conditionsinput")
+        div(class="ui grid")
+          div(class="one column row")
+            div(class="right aligned column")
+              button(class="ui primary submit button", type="submit") Edit
+              button(class="ui negative button", onclick="javascript:window.history.back(-1);") Back to list
+      
+  script.
+    var results = JSON.parse('!{cntnt}');
+    var el = document.getElementById("authorsinput");
+    el.setAttribute("value",results.authors);
+    el = document.getElementById("sourceinput");
+    el.setAttribute("value",results.source);
+    el = document.getElementById("dateinput");
+    el.setAttribute("value",results.date);
+    el = document.getElementById("tourneyinput");
+    el.setAttribute("value",results.tourney);
+    el = document.getElementById("distinctioninput");
+    el.setAttribute("value",results.distinction);
+    el = document.getElementById("feninput");
+    el.setAttribute("value",results.fen);
+    el = document.getElementById("stipinput");
+    el.setAttribute("value",results.stip);
+    el = document.getElementById("conditionsinput");
+    el.innerHTML = sanitize(results.conditions);
+    
+
+
+      $('.ui.form').
+        form({
+          fields: {
+            fen: 'empty',
+            stip:'empty'
+           }
+          });

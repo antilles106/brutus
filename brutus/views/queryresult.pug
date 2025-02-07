@@ -1,0 +1,185 @@
+extends layout
+
+block chessjs 
+  script.
+    
+    // Return Promise which get contents from a file
+    var fetchAsText = (file) => {
+      return new Promise((resolve) => {
+        var fr = new FileReader();
+        fr.onload = (e) => {
+          // Resolve contents
+          resolve(e.currentTarget.result);
+        };
+        fr.readAsText(file);
+      });
+    };
+
+    function changename(){
+      probnum = 0;
+      filenamelist = JSON.parse('!{filenamelist}');
+      document.getElementById("main_tbody").innerHTML = "";
+      //- document.getElementById("olivecontent").value = "";
+
+      var table_element = document.getElementById("main_tbody");
+      var text = '!{out_json}';
+      text = text.replace(/\n/g,'\\n').replace(/\r/g,'\\r').replace(/\//g,'\\/');
+      var yaml_out = JSON.parse(text);
+
+      var ddmenu = document.getElementById("dropdownmenu");
+      ddmenu.innerHTML = "";
+
+      for(let i=0;i<yaml_out.length;i++){
+        var tr_elem = document.createElement("tr");
+        var td_authors = "";
+        var td_source = "";
+        var td_date = "";
+        var td_stip = "";
+        if (yaml_out[i].authors){
+        for(let j=0;j<yaml_out[i].authors.length;j++){
+            if(length > 1){
+            td_authors += yaml_out[i].authors[j];
+            td_authors += ";" 
+            }else{
+            td_authors = yaml_out[i].authors[0];
+            }
+        }
+        }
+        if (yaml_out[i].stipulation){
+        td_stip = yaml_out[i].stipulation;
+        }
+        if (yaml_out[i].source){
+        if (yaml_out[i].source.name){
+            td_source = yaml_out[i].source.name;
+        }
+        if (yaml_out[i].source.date){
+            if (yaml_out[i].source.date.month && yaml_out[i].source.date.year){
+            td_date = yaml_out[i].source.date.month + "/" + yaml_out[i].source.date.year;
+            }else if (yaml_out[i].source.date.year){
+            td_date = yaml_out[i].source.date.year;
+            }
+        }
+        }
+        tr_elem.id = "tr" + String(probnum+1);
+        table_element.appendChild(tr_elem);
+        var tr_targ = document.getElementById("tr" + String(probnum+1));
+
+        var elem = document.createElement('td');
+        elem.innerHTML = sanitize(String(probnum+1));
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(filenamelist[i]);
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(td_authors);
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(td_source);
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(td_date);
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(td_stip);
+        tr_targ.appendChild(elem);
+
+        var dditem = document.createElement("div");
+        dditem.setAttribute("class","item");
+        dditem.setAttribute("data-value",String(probnum+1));
+        dditem.innerHTML = sanitize(String(probnum+1));
+        ddmenu.appendChild(dditem);
+
+        probnum++;
+      }
+    }
+
+
+block content
+  script.
+    var tm = document.getElementById("fileopenmenu");
+    tm.setAttribute("class","active item")
+  h1 Query Result
+  div(class="ui segment" id="contentsegment")
+    div(class="ui text container")
+      form(class="ui form",id="popeyeform",action="popeye",method="POST")
+        div(class="default text") problem ID
+        div(class="two fields")
+          div(class="ui selection dropdown")
+            input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
+            i(class="dropdown icon")
+            div(class="default text") problem ID
+            div(class="menu" id="dropdownmenu")
+          div(class="field")
+            button(type="button", class="ui primary button", onClick="fileResult();") Show Directly
+            button(class="ui primary button", onClick="popeyeSubmit();") Solve(Experimental)
+          textarea(id="olivecontent" hidden)
+  div(class="ui segment" id="contentsegment")
+    div(class="ui segment")
+      div(style="height:300px;overflow-x: scroll;")
+        table(class="ui table")
+          thead
+            tr
+              th ID
+              th File
+              th Authors
+              th Source
+              th Date
+              th Stipulation
+          tbody(id="main_tbody")
+  div(class="ui text container")
+    button(class="ui negative button", onclick="javascript:history.back();") Back to Olive file list
+
+  script.
+    $('.ui.dropdown').dropdown();
+    changename();
+
+  //- directly submit
+  script(type="text/javascript").
+    function fileResult(){
+        var form = document.getElementById("popeyeform");
+        form.method = 'POST';
+        form.action = 'fileresult';
+        var request_json = document.createElement('input');
+        request_json.type = 'hidden';
+        request_json.name = "json";
+        request_json.value = '!{out_json}';
+
+        var request_id = document.createElement('input');
+        request_id.type = 'hidden';
+        request_id.name = "popeye_id";
+        request_id.value = document.getElementById("popeye_id").value;
+
+        form.appendChild(request_json);
+        form.appendChild(request_id);
+
+        form.submit();
+    }
+
+    function popeyeSubmit(){
+      var form = document.getElementById("popeyeform");
+      form.method = 'POST';
+      form.action = 'olivetopopeye';
+
+      var request_yaml = document.createElement('input');
+      request_yaml.type = 'hidden';
+      request_yaml.name = "json";
+      request_yaml.value = '!{out_json}';
+
+      var request_id = document.createElement('input');
+      request_id.type = 'hidden';
+      request_id.name = "popeye_id";
+      request_id.value = document.getElementById("popeye_id").value;
+
+      var loader = document.getElementById("contentsegment");
+      loader.insertAdjacentHTML('beforebegin','<div class="ui active dimmer"><div class="ui text loader">Solving...</div></div>');
+
+      form.appendChild(request_yaml);
+      form.appendChild(request_id);
+
+      form.submit();
+    }

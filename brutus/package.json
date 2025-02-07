@@ -1,0 +1,46 @@
+{
+  "name": "brutus",
+  "version": "1.0.0",
+  "private": true,
+  "author": "antilles106",
+  "description": "Brutus: Chess problem viewer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cookie-parser": "~1.4.4",
+    "electron-squirrel-startup": "^1.0.1",
+    "express": "^4.21.2",
+    "fs": "^0.0.1-security",
+    "http-errors": "^2.0.0",
+    "jquery": "^3.6.0",
+    "js-yaml": "^4.1.0",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pug": "^3.0.3",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "browserify": "^17.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^34.1.0",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "extraResources": [
+      "brutus/bin/"
+    ]
+  }
+}

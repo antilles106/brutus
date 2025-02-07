@@ -1,0 +1,186 @@
+extends layout
+
+block chessjs
+  - var cntnt=content;
+
+block content
+  script.
+    var tm = document.getElementById("dbselectmenu");
+    tm.setAttribute("class","active item")
+  
+  div(class="ui segment" id="contentsegment")
+    div(class="ui two column grid")
+      div(class="column")
+        p To solve a problem, select from the dropdown or click ID in the problem list:
+        
+      div(class="column")
+        form(class="ui form",id="popeyeform",action="popeye",method="POST")
+          div(class="ui selection dropdown")
+            input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
+            i(class="dropdown icon")
+            div(class="default text") problem ID
+            div(class="menu" id="dropdownmenu")
+          button(class="ui primary button", onClick="popeyeSubmit();") Solve
+
+    div(class="ui two column grid")
+      div(class="column")
+        h2 Problem List:
+      div(class="right aligned column")
+        a(href="dbregister")
+          button(class="ui button")
+            i(class="plus icon")
+    p 
+      div(style="height:300px;overflow-x: scroll;")
+        table(class="ui table")
+          thead
+            tr
+              th ID
+              th Authors
+              th Source
+              th Date
+              th Tourney
+              th Distinction
+              th FEN
+              th Stipulation
+              th Conditions
+              th 
+              th
+          tbody(id="main_tbody")
+
+
+
+  script(type="text/javascript").
+    var results = JSON.parse('!{cntnt}');
+    var table_element = document.getElementById("main_tbody");
+    var ddmenu = document.getElementById("dropdownmenu");
+    results.forEach(element =>{
+        var tr_elem = document.createElement("tr");
+        tr_elem.id = "tr" + String(element.id);
+        table_element.appendChild(tr_elem);
+
+        var tr_targ = document.getElementById("tr" + String(element.id));
+        var elem = document.createElement('td');
+        elem.innerHTML = '<a href="javascript:void(0);" onClick=clickList(this);>'+sanitize(element.id)+'</a>';
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.authors);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.source);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.date);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.tourney);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.distinction);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.fen);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.stip);
+        tr_targ.appendChild(elem);
+        elem = document.createElement('td');
+        elem.innerHTML = sanitize(element.conditions);
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = '<a href="javascript:void(0);" editid='+ sanitize(String(element.id)) +' onClick=edit(this);><i class="edit icon"></i></a>'
+        tr_targ.appendChild(elem);
+
+        elem = document.createElement('td');
+        elem.innerHTML = '<a delid='+ sanitize(String(element.id)) +' onClick=delAlert(this);><i class="trash icon"></i></a>'
+        tr_targ.appendChild(elem);
+
+        
+        var dditem = document.createElement("div");
+        dditem.setAttribute("class","item");
+        dditem.setAttribute("data-value",element.id);
+        dditem.innerHTML = sanitize(String(element.id));
+        ddmenu.appendChild(dditem);
+
+        });
+  script.
+    $('.ui.dropdown').dropdown();
+
+  script.
+    function popeyeSubmit(){
+      var form = document.getElementById("popeyeform");
+      form.method = 'POST';
+      form.action = 'popeye';
+      
+      var request_fen = document.createElement('input');
+      request_fen.type = 'hidden';
+      request_fen.name = "fen";
+
+      var request_stip = document.createElement('input');
+      request_stip.type = 'hidden';
+      request_stip.name = "stip";
+
+      var request_conditions =  document.createElement('input');
+      request_conditions.type = 'hidden';
+      request_conditions.name = "conditions";
+      
+      var targ = document.getElementById("tr" + String(document.getElementById("popeye_id").value))
+      request_fen.value = targ.children[6].innerHTML;
+      request_stip.value = targ.children[7].innerHTML;
+      request_conditions.value = targ.children[8].innerHTML;
+      
+      form.appendChild(request_fen);
+      form.appendChild(request_stip);
+      form.appendChild(request_conditions);
+
+      var loader = document.getElementById("contentsegment");
+      loader.insertAdjacentHTML('beforebegin','<div class="ui active dimmer"><div class="ui text loader">Solving...</div></div>');
+
+      form.submit();
+    }
+    function delAlert(obj){
+      var res = confirm("Delete Problem ID " + String(obj.getAttribute("delid")) + "?");
+      if (res){  
+        window.location.href = 'dbdeletefinish?delid=' + String(obj.getAttribute("delid"));
+      }
+    }
+    function edit(obj){
+        window.location.href = 'dbedit?editid=' + String(obj.getAttribute("editid"));
+    }
+
+    function clickList(obj){
+      var res = confirm("Solve this problem by Popeye?");
+      if(res){
+        var solveid = obj.innerHTML;
+
+        var form = document.getElementById("popeyeform");
+        form.method = 'POST';
+        form.action = 'popeye';
+        
+        var request_fen = document.createElement('input');
+        request_fen.type = 'hidden';
+        request_fen.name = "fen";
+
+        var request_stip = document.createElement('input');
+        request_stip.type = 'hidden';
+        request_stip.name = "stip";
+
+        var request_conditions =  document.createElement('input');
+        request_conditions.type = 'hidden';
+        request_conditions.name = "conditions";
+        
+        var targ = document.getElementById("tr" + String(solveid));
+        request_fen.value = targ.children[6].innerHTML;
+        request_stip.value = targ.children[7].innerHTML;
+        request_conditions.value = targ.children[8].innerHTML;
+        
+        form.appendChild(request_fen);
+        form.appendChild(request_stip);
+        form.appendChild(request_conditions);
+
+      var loader = document.getElementById("contentsegment");
+      loader.insertAdjacentHTML('beforebegin','<div class="ui active dimmer"><div class="ui text loader">Solving...</div></div>');
+
+        form.submit();
+      }
+    }

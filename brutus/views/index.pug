@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  script.
+    var tm = document.getElementById("homemenu");
+    tm.setAttribute("class","active item")
+
+  div(class="ui segment")
+    
+    div(class="ui text container")
+      h2 Welcome to Brutus: chess problem viewer!
+      p Problem Viewer is standalone problem viewer and database.
+      p Our features:
+      ul
+        li If you want to solve the problem by Popeye, click "Solve from FEN" button. 
+        li If you want to show the problem in DB, click "Solve from DB" button.
+        li If you already have the solution by Popeye, click "Show Problem" button 
+        li If you want to put your original to the DB, click "Register to DB" button. 
+        li If you want to open Olive files, click "Open an Olive file" button.
+
+    div(class="ui text container")
+      
+      div(class="ui segment")
+        h2 Get started
+        div(class="ui centered grid")
+          div(class="eight wide centered column")
+            button(class="ui olive button" onclick="location.href='fromfen'") Solve from FEN
+          div(class="eight wide column")
+            button(class="ui olive button" onclick="location.href='dbselect'") Solve from DB
+          div(class="eight wide column")
+            button(class="ui olive button" onclick="location.href='result'") Show Problem
+          div(class="eight wide column")
+            button(class="ui olive button" onclick="location.href='dbregister'") Register to DB
+          div(class="eight wide column")
+            button(class="ui olive button" onclick="location.href='fileopen'") Open Olive files

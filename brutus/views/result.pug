@@ -1,0 +1,78 @@
+extends layout
+
+block chessjs
+  script(type="text/javascript").
+    var coord = /[a-h][1-8]/gi;
+    if(location.pathname.startsWith("/py2web/")) {
+      window.location.href = "/#static/py2web"
+    }
+    $(document).ready(function() {
+      $("#btnP2wDemo").click(function() {
+        var white_str = $("#py-pieces").val().match(/^.*white.*/gi);
+        if (white_str){
+          var white_result = white_str[0].match(coord);
+          white_len = white_result.length
+        }else{
+          white_len = 0
+        }
+        var black_str = $("#py-pieces").val().match(/.*black.*/gi);
+        if (black_str){
+          var black_result = black_str[0].match(coord);
+          black_len = black_result.length
+        }else{
+          black_len = 0
+        }
+
+        $('#demo').html('')
+          .append($("<div>").addClass("p2w-diagram")
+            .attr('id', 'demo-board').html($("#py-pieces").val()))
+          .append($("#py-stip").clone().val())
+          .append(" (").append(white_len).append("+").append(black_len).append(")").append("<br><br>")
+          .append($("<div>").addClass("p2w-solution")
+            .attr('target', 'demo-board').html($("#py-output").val()))		
+        Py2Web.init('#demo')
+        $('#pbtitle').replaceWith('<div id="pbtitle">' + $("#py-titles").clone().val() + '</div>')
+      })
+      Py2Web.init('#mainContent')
+    })
+
+block content
+  script.
+    var tm = document.getElementById("resultmenu");
+    tm.setAttribute("class","active item")
+  div(class="ui segment")
+    div(class="ui grid")
+      div(class="ui five wide column")
+        div
+          h3(class="ui header") Diagram and Solution:
+        div
+          h4(class="ui header")
+            br
+            div(id="pbtitle")
+              br
+        div(id="demo")
+          div(class="p2w-diagram",id="dummy")
+          div(class="p2w-solution",target="dummy")
+			
+      div(class="ui eleven wide column")
+        div(class="ui segment")
+          div
+            h3(class="ui header") Informations:
+              div(class="ui form")
+                div(class="two fields")
+                  div(class="field")
+                    label Title:
+                    input(type="text",id="py-titles")
+                  div(class="field")
+                    label Stipulation:
+                    input(type="text",id="py-stip",value=my_stip)
+                div(class="field")
+                  label Pieces:
+                  textarea(rows="2",cols="30",id="py-pieces")=my_pieces
+                div(class="field")
+                  label Solution:
+                  textarea(rows="5",cols="30",id="py-output")=my_solution
+                div(class="ui grid")
+                  div(class="one column row")
+                    div(class="right aligned column")
+                      button(class="ui primary button",id="btnP2wDemo") Show diagram and solution

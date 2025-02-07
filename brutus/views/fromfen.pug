@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  script.
+    var tm = document.getElementById("fromfenmenu");
+    tm.setAttribute("class","active item")
+  div(class="ui text container")
+    div(class="ui segment")
+      h2 From FEN
+
+      p Caution: Knight should be notated as 'S', not 'N'.
+
+      form(class="ui form",action="popeye",method="POST")
+        div(class="two fields")
+          div(class="field")
+            label FEN:
+            input(type="text",name="fen",placeholder="rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
+          div(class="field")
+            label Stipulation:
+            input(type="text", name="stip", placeholder="H#2")
+        div(class="field")
+          label Condition, Twin and Others:
+          textarea(rows="5",cols="30",name="conditions",placeholder="Condition Circe\nTwin Move d2 d3")
+        div(class="ui grid")
+          div(class="one column row")
+            div(class="right aligned column")
+              button(class="ui primary submit button", type="submit") Submit
+              button(class="ui negative button", onclick="location.href='/'") Back to Top

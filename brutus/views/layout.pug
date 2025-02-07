@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= title
+    script(src="javascripts/brutus/jquery.min.js")
+    link(rel="stylesheet", href="javascripts/brutus/semantic.min.css" type="text/css")
+    script(src="javascripts/brutus/semantic.min.js")
+
+    script(type="text/javascript",src="javascripts/brutus/py2web.js")
+    link(href="javascripts/brutus/py2web.css" rel="stylesheet" type="text/css")
+    script(src="javascripts/brutus/js-yaml.min.js")
+    script.
+      //for sanitization to InnerHTML
+      var sanitize = function(inString){
+        const parser = new DOMParser;
+        const doc = parser.parseFromString(inString,'text/html');
+        Array.from(doc.body.querySelectorAll('*')).forEach(tag =>{
+          tag.remove();
+        })
+        return doc.body.innerHTML;
+      }
+    block chessjs
+
+  body
+    div
+      h1(class="ui center aligned header") Brutus 1.0.0
+    div(class="ui six item pointing menu" id="menu")
+      a(class="item",href="/",id="homemenu") Home
+      a(class="item",href="fromfen",id="fromfenmenu") Solve from FEN
+      a(class="item",href="dbselect",id="dbselectmenu") Solve from DB
+      a(class="item",href="result",id="resultmenu") Show Problem
+      a(class="item",href="dbregister",id="dbregistermenu") Register to DB
+      a(class="item",href="fileopen",id="fileopenmenu") Open Olive files
+
+
+    block content
