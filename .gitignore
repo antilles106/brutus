@@ -85,7 +85,6 @@ web_modules/
 
 # Next.js build output
 .next
-out
 
 # Nuxt.js build / generate output
 .nuxt
@@ -128,3 +127,17 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Project files
+brutus/node_modules/*
+brutus/out/*
+brutus/public/javascripts/brutus/*
+brutus/sqlite3.db
+brutus/pywin64.exe
+brutus/out.txt
+brutus/tmp.txt
+brutus/package-lock.json
+brutus/bin/pywin64.exe
+brutus/bin/tmp.txt
+brutus/bin/out.txt
+brutus/bin/sqlite3.db
