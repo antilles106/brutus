@@ -8,9 +8,15 @@ block content
     div(class="ui segment")
       h2 From FEN
 
-      p Caution: Knight should be notated as 'S', not 'N'.
-
       form(class="ui form",action="popeye",method="POST")
+        div(class="field")
+          label Knight option:
+          div(class="ui radio checkbox")
+            input(type="radio" name="knightoption" checked="checked" value="EnglishN")
+            label EnglishN (N for Knight, .NR for Nightrider) &nbsp;&nbsp;
+          div(class="ui radio checkbox")
+            input(type="radio" name="knightoption" value="Popeye")
+            label Popeye (S for Knight, N for Nightrider)
         div(class="two fields")
           div(class="field")
             label FEN:
