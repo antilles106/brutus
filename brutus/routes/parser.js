@@ -4,6 +4,50 @@
 
 "use strict";
 
+var problems_for_query = [];
+var filenamelist_for_query = [];
+
+//return index of the selected problem
+function select_by_value(json_out,filename,key,expr){
+  var ret = [];
+  for(let i=0;i<json_out.length;i++){
+    if (key === "STIP" && json_out[i].stipulation){
+      if(json_out[i].stipulation.indexOf(expr) != -1){
+        ret.push(i);
+      }
+    }else 
+    if (key === "A" && json_out[i].authors){
+      for(let j=0;j<json_out[i].authors.length;j++){
+        if(json_out[i].authors[j].indexOf(expr) != -1){
+          ret.push(i);
+        }                    
+      }
+    }else 
+    if (key === "SOURCE" && json_out[i].source){
+      if(json_out[i].source.name){
+        if(json_out[i].source.name.indexOf(expr) != -1){
+          ret.push(i);
+        }  
+      }
+    }else 
+    if (key === "YEAR" && json_out[i].source.date){
+      if (json_out[i].source.date.year){
+        if(json_out[i].source.date.year === parseInt(expr)){
+          ret.push(i);
+        }            
+      }
+    }else 
+    if (key === "MONTH" && json_out[i].source.date){
+      if (json_out[i].source.date.month){
+        if(json_out[i].source.date.month === parseInt(expr)){
+          ret.push(i);
+        }
+      }
+    }
+  }
+  var rset = new Set(ret);
+  return rset;
+}
 
 function peg$subclass(child, parent) {
   function C() { this.constructor = child; }
@@ -168,8 +212,12 @@ peg$SyntaxError.buildMessage = function(expected, found) {
   return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";
 };
 
-function peg$parse(input, options) {
+function peg$parse(input, options, problems) {
   options = options !== undefined ? options : {};
+
+  //define as a global variable so that atomic function can read them
+  problems_for_query = problems.json_out;
+  filenamelist_for_query = problems.filenamelist;
 
   var peg$FAILED = {};
   var peg$source = options.grammarSource;
@@ -209,21 +257,14 @@ function peg$parse(input, options) {
   var peg$f0 = function(left, ops, right) {
     if (ops === "OR"){
         //if operation is "OR", the union of two files are returned.
-        return "Return Union!!!";
+        // return "Return Union!!!"; 
+        return left.union(right);
     }else if (ops === "AND"){
         //if operation is "OR", the union of two files are returned.
-        return "Return Intersection!!!";
-    }
+        // return "Return Intersection!!!";
+        return left.intersection(right);
+      }
 
-};
-  var peg$f1 = function(left, ops, right) {
-    if (ops === "OR"){
-        //if operation is "OR", the union of two files are returned.
-        return "Return Union!!!";
-    }else if (ops === "AND"){
-        //if operation is "OR", the intersection of two files are returned.
-        return "Return Intersection!!!";
-    }
 };
   var peg$f2 = function(val) {
     return val;
@@ -236,7 +277,11 @@ function peg$parse(input, options) {
 };
   var peg$f5 = function(cols, exprs) {
     // When Atomic is parsed, return JSON_out and filenamelist into OPTION
-    return "Return Atomic!!!";
+    var ret = select_by_value(problems_for_query,filenamelist_for_query,cols,exprs.join(''));
+    console.log("Query Out...");
+    console.log(ret);
+    // return "Return Atomic!!!";
+    return ret;
 };
   var peg$currPos = options.peg$currPos | 0;
   var peg$savedPos = peg$currPos;
@@ -437,7 +482,7 @@ function peg$parse(input, options) {
           s5 = peg$parseVAL();
           if (s5 !== peg$FAILED) {
             peg$savedPos = s0;
-            s0 = peg$f1(s1, s3, s5);
+            s0 = peg$f0(s1, s3, s5);
           } else {
             peg$currPos = s0;
             s0 = peg$FAILED;

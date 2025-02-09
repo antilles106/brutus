@@ -21,7 +21,7 @@ PROGRAM = left:VAL INDENTATION? ops:OPS INDENTATION? right:PROGRAM{
     }
 }
 / val:VAL{
-    return val;
+    return "Return Raw Value!!!";
 }
 
 VAL = "(" INDENTATION? atm:PROGRAM INDENTATION? ")"{

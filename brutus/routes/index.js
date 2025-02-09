@@ -47,15 +47,15 @@ router.post('/queryresult',function(req,res,next){
   var json_out = yaml.loadAll(req.body.yaml);
   var filename = JSON.parse(req.body.filenamelist);
   var query = req.body.query;
-  try{
+  // try{
     var json_select = select_by_query(json_out,query,filename);
     res.render('queryresult',{ title: 'Brutus',
       out_json:JSON.stringify(json_select.ret),
       filenamelist:JSON.stringify(json_select.filename)});
-  }catch{
-      dialog.showErrorBox("Olive open error","Query Parse Error.");
-      res.location(req.get("Referrer") || "/");
-  }
+  // }catch{
+  //     dialog.showErrorBox("Olive open error","Query Parse Error.");
+  //     res.location(req.get("Referrer") || "/");
+  // }
 
 });
 
