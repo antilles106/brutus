@@ -57,8 +57,46 @@ router.get('/dbselect', function(req, res, next) {
 
 router.post('/dbregisterfinish', function(req, res, next) {
     db.serialize(function () {
+        var fen = req.body.fen;
+        if (req.body.knightoption === "EnglishN"){
+          console.log(req.body);
+          // "N" and the previous two letters are not "." -> "S"
+
+          //one letter "N" to "S"
+          for(let i=0;i<fen.length;i++){
+            if (fen[i] === "N"){
+              
+              if(i==0){
+                fen = "S" + fen.slice(1,fen.length);
+              }else if (i==1){
+                if (fen[0] != "."){
+                  fen = fen[0] + "S" + fen.slice(2,fen.length);
+                }
+              }else{
+                if (fen[i-1] != "." && fen[i-2] != "."){
+                  fen = fen.slice(0,i) + "S" + fen.slice(i+1,fen.length);
+                }
+              }
+            }else if (fen[i] === "n"){
+              if(i==0){
+                fen = "s" + fen.slice(1,fen.length);
+              }else if (i==1){
+                if (fen[0] != "."){
+                  fen = fen[0] + "s" + fen.slice(2,fen.length);
+                }
+              }else{
+                if (fen[i-1] != "." && fen[i-2] != "."){
+                  fen = fen.slice(0,i) + "s" + fen.slice(i+1,fen.length);
+                }
+              }
+            }
+          }
+          fen = fen.replace(/\.NR/g,"N");  
+          fen = fen.replace(/\.nr/g,"n");  
+        }
+
         var stmt = db.prepare('INSERT INTO problems (authors,source,date,tourney,distinction,fen,stip,conditions) VALUES (?,?,?,?,?,?,?,?)')
-        stmt.run(req.body.authors,req.body.source,req.body.date,req.body.tourney,req.body.distinction,req.body.fen,req.body.stip,req.body.conditions);
+        stmt.run(req.body.authors,req.body.source,req.body.date,req.body.tourney,req.body.distinction,fen,req.body.stip,req.body.conditions);
         stmt.finalize();
     })
     res.render('dbregisterfinish', { title: 'Brutus' });
