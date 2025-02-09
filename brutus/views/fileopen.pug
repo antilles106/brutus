@@ -44,9 +44,9 @@ block chessjs
           var td_stip = "";
           if (yaml_out[i].authors){
             for(let j=0;j<yaml_out[i].authors.length;j++){
-              if(length > 1){
+              if(yaml_out[i].authors.length > 1){
                 td_authors += yaml_out[i].authors[j];
-                td_authors += ";" 
+                td_authors += "; " 
               }else{
                 td_authors = yaml_out[i].authors[0];
               }

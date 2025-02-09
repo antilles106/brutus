@@ -28,11 +28,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/fromfen', function(req, res, next) {
-  res.render('fromfen', { title: 'Brutus' });
+  try{
+    res.render('fromfen', { title: 'Brutus' });
+  }catch(e){
+    dialog.showErrorBox("Internal error","Something is wrong.");
+    res.location(req.get("Referrer") || "/");
+  }
 });
 
 router.get('/result', function(req, res, next) {
-  res.render('result', { title: 'Brutus' });
+  try{
+    res.render('result', { title: 'Brutus' });
+  }catch(e){
+    dialog.showErrorBox("Internal error","Something is wrong.");
+    res.location(req.get("Referrer") || "/");
+  }
 });
 
 router.post('/popeye', popeye_controller);
@@ -40,21 +50,22 @@ router.post('/popeye', popeye_controller);
 router.post('/olivetopopeye',olivetopopeye_controller);
 
 router.get('/fileopen',function(req,res,next){
-  res.render('fileopen',{ title: 'Brutus' });
+  res.render('fileopen',{ title: 'Brutus'});
 });
 
 router.post('/queryresult',function(req,res,next){
-  var json_out = yaml.loadAll(req.body.yaml);
-  var filename = JSON.parse(req.body.filenamelist);
-  var query = req.body.query;
   try{
+    var json_out = yaml.loadAll(req.body.yaml);
+    var filename = JSON.parse(req.body.filenamelist);
+    var query = req.body.query;
+
     var json_select = select_by_query(json_out,query,filename);
     res.render('queryresult',{ title: 'Brutus',
       out_json:JSON.stringify(json_select.ret),
       filenamelist:JSON.stringify(json_select.filename)});
   }catch(e){
       dialog.showErrorBox("Query Parse Error", e.message);
-      res.location(req.get("Referrer") || "/");
+      res.render('fileopen',{ title: 'Brutus' });
   }
 
 });
@@ -76,7 +87,7 @@ router.post('/fileresult',function(req,res,next){
     }
   }catch{
     dialog.showErrorBox("Olive open error","Something is wrong.");
-    res.location(req.get("Referrer") || "/");
+    res.render('fileopen',{ title: 'Brutus' });
   }
 
   res.render('result',{ title: 'Brutus',

@@ -22,39 +22,45 @@ const dir = process.env.NODE_ENV === 'development'
 
 // calling Popeye and write the result to text file
 var popeye_controller = function(req,res,next){
-  var pieces_from_fen = fen_parser(req);
+  try{
+    var pieces_from_fen = fen_parser(req);
 
-  var fen = req.body.fen;
-  if (req.body.knightoption && req.body.knightoption === "EnglishN"){
-    fen = switch_EnglishN(fen);
+    var fen = req.body.fen;
+    if (req.body.knightoption && req.body.knightoption === "EnglishN"){
+      fen = switch_EnglishN(fen);
+    }
+
+    // write to tmp.txt
+    data = "BeginProblem\nStipulation " + req.body.stip + "\nProtocol " + path.join(dir, "out.txt") + "\nOption Noboard Variation\nforsyth " + fen + "\n" + req.body.conditions.replace(/&amp;/g,'&').replace(/<br>/g,'\n') + "\nEndProblem\n";
+
+    fs.writeFileSync(path.join(dir, "tmp.txt"),data);
+
+    if (fs.existsSync(path.join(dir, "out.txt"))) {
+      fs.unlinkSync(path.join(dir, "out.txt"));
+    }
+
+    child_process.execFileSync(path.join(dir, "pywin64.exe"), [path.join(dir, "tmp.txt")]);
+
+
+    var l = fs.readFileSync(path.join(dir, "out.txt"));
+    l_str = l.toString()
+      .replace(/[\r\n|\n|\r]*solution finished\. .*[\r\n|\n|\r]*/i,'')
+      .replace(/Popeye Windows-64Bit v[0-9]*\.[0-9]* .*[\r\n|\n|\r]*/i,'');
+
+    var additional_pieces = get_pieces_from_condition(req);
+    for(let i=0;i<additional_pieces.length;i++){
+      pieces_from_fen = pieces_from_fen + "\n" + additional_pieces[i];
+    }
+
+    res.render('result', { title: 'Brutus',
+      "my_stip":req.body.stip,
+    "my_pieces":pieces_from_fen,  
+    "my_solution":l_str});
+  }catch(e){
+    dialog.showErrorBox("Popeye Internal error","Something is wrong.");
+    res.location(req.get("Referrer") || "/");
   }
 
-  // write to tmp.txt
-  data = "BeginProblem\nStipulation " + req.body.stip + "\nProtocol " + path.join(dir, "out.txt") + "\nOption Noboard Variation\nforsyth " + fen + "\n" + req.body.conditions.replace(/&amp;/g,'&').replace(/<br>/g,'\n') + "\nEndProblem\n";
-
-  fs.writeFileSync(path.join(dir, "tmp.txt"),data);
-
-  if (fs.existsSync(path.join(dir, "out.txt"))) {
-    fs.unlinkSync(path.join(dir, "out.txt"));
-  }
-
-  child_process.execFileSync(path.join(dir, "pywin64.exe"), [path.join(dir, "tmp.txt")]);
-
-
-  var l = fs.readFileSync(path.join(dir, "out.txt"));
-  l_str = l.toString()
-    .replace(/[\r\n|\n|\r]*solution finished\. .*[\r\n|\n|\r]*/i,'')
-    .replace(/Popeye Windows-64Bit v[0-9]*\.[0-9]* .*[\r\n|\n|\r]*/i,'');
-
-  var additional_pieces = get_pieces_from_condition(req);
-  for(let i=0;i<additional_pieces.length;i++){
-    pieces_from_fen = pieces_from_fen + "\n" + additional_pieces[i];
-  }
-
-  res.render('result', { title: 'Brutus',
-    "my_stip":req.body.stip,
-  "my_pieces":pieces_from_fen,  
-  "my_solution":l_str});
 }
 
 //Reading Olive files, parsing them and solving the problem by popeye
@@ -88,7 +94,7 @@ var olivetopopeye_controller = function(req,res,next){
       .replace(/[\r\n|\n|\r]*solution finished\. .*[\r\n|\n|\r]*/i,'')
       .replace(/Popeye Windows-64Bit v[0-9]*\.[0-9]* .*[\r\n|\n|\r]*/i,'');
   }catch{
-    dialog.showErrorBox("Olive open error","Something is wrong.");
+    dialog.showErrorBox("Olive/Popeye Internal error","Something is wrong.");
     res.render('fileopen',{ title: 'Brutus' });
   }
 

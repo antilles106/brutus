@@ -30,14 +30,14 @@ function select_by_value(json_out,filename,key,expr){
         }  
       }
     }else 
-    if (key === "YEAR" && json_out[i].source.date){
+    if (key === "YEAR" && json_out[i].source && json_out[i].source.date){
       if (json_out[i].source.date.year){
         if(json_out[i].source.date.year === parseInt(expr)){
           ret.push(i);
         }            
       }
     }else 
-    if (key === "MONTH" && json_out[i].source.date){
+    if (key === "MONTH" && json_out[i].source && json_out[i].source.date){
       if (json_out[i].source.date.month){
         if(json_out[i].source.date.month === parseInt(expr)){
           ret.push(i);
