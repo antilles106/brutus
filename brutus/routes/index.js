@@ -52,8 +52,8 @@ router.post('/queryresult',function(req,res,next){
     res.render('queryresult',{ title: 'Brutus',
       out_json:JSON.stringify(json_select.ret),
       filenamelist:JSON.stringify(json_select.filename)});
-  }catch{
-      dialog.showErrorBox("Olive open error","Query Parse Error.");
+  }catch(e){
+      dialog.showErrorBox("Query Parse Error", e.message);
       res.location(req.get("Referrer") || "/");
   }
 

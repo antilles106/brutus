@@ -1,3 +1,5 @@
+const parser = require('./parser');
+
 var fen_parser = function(req){
     var white = [];
     var black = [];
@@ -131,54 +133,22 @@ var fen_parser = function(req){
     return ret;
   }
   
-  // TODO: parsing query. Should be improved
   var select_by_query = function(json_out,query,filenamelist){
     var filename = [];
     var ret = [];
+
+    var problems = {
+      "json_out":json_out,
+      "filenamelist":filenamelist
+    };
+
+    var queryres = parser.parse(query,{},problems);
+
+    queryres.forEach(element => {
+      ret.push(json_out[element]);
+      filename.push(filenamelist[element])
+    });
   
-    queries = parse_query(query);
-    for(let key in queries){
-      for(let i=0;i<json_out.length;i++){
-        if (key === "stipulation" && json_out[i].stipulation){
-          if(json_out[i].stipulation.indexOf(queries[key]) != -1){
-            ret.push(json_out[i]);
-            filename.push(filenamelist[i]);
-          }
-        }else 
-        if (key === "author" && json_out[i].authors){
-          for(let j=0;j<json_out[i].authors.length;j++){
-            if(json_out[i].authors[j].indexOf(queries[key]) != -1){
-              ret.push(json_out[i]);
-              filename.push(filenamelist[i]);
-            }                    
-          }
-        }else 
-        if (key === "source" && json_out[i].source){
-          if(json_out[i].source.name){
-            if(json_out[i].source.name.indexOf(queries[key]) != -1){
-              ret.push(json_out[i]);
-              filename.push(filenamelist[i]);
-            }  
-          }
-        }else 
-        if (key === "year" && json_out[i].source.date){
-          if (json_out[i].source.date.year){
-            if(json_out[i].source.date.year === parseInt(queries[key])){
-              ret.push(json_out[i]);
-              filename.push(filenamelist[i]);
-            }            
-          }
-        }else 
-        if (key === "month" && json_out[i].source.date){
-          if (json_out[i].source.date.month){
-            if(json_out[i].source.date.month === parseInt(queries[key])){
-              ret.push(json_out[i]);
-              filename.push(filenamelist[i]);
-            }            
-          }
-        }
-      }
-    }
     //escaping
     //TODO: modify
     for(let i=0;i<ret.length;i++){
@@ -199,41 +169,6 @@ var fen_parser = function(req){
     return {ret,filename};
   }
   
-  var parse_query = function(query){
-    var ret = {};
-      pattern = /.*STIP\s*=\s*'(\S+)'\s*.*/;
-      var result = query.match(pattern);
-      if (result){
-        ret["stipulation"] = result[1];
-      }
-    
-      pattern = /.*A\s*=\s*'(\S+)'\s*.*/;
-      var result = query.match(pattern);
-      if (result){
-        ret["author"] = result[1];
-      }
-    
-      pattern = /.*SOURCE\s*=\s*'(\S+)'\s*.*/;
-      var result = query.match(pattern);
-      if (result){
-        ret["source"] = result[1];
-      }
-    
-      pattern = /.*YEAR\s*=\s*'(\S+)'\s*.*/;
-      var result = query.match(pattern);
-      if (result){
-        ret["year"] = result[1];
-      }
-    
-      pattern = /.*SOURCE\s*=\s*'(\S+)'\s*.*/;
-      var result = query.match(pattern);
-      if (result){
-        ret["month"] = result[1];
-      }
-
-  
-    return ret;
-  }
 
 module.exports = {fen_parser,
     get_pieces_from_condition,
