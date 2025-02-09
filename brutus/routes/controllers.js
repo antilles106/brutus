@@ -7,7 +7,9 @@ const  {fen_parser,
     get_pieces_from_condition, 
     get_pieces_from_yaml, 
     get_conditions_from_yaml, 
-    get_twin_from_yaml} = require('./utils');
+    get_twin_from_yaml,
+    switch_EnglishN } = require('./utils');
+  
 
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -22,8 +24,13 @@ const dir = process.env.NODE_ENV === 'development'
 var popeye_controller = function(req,res,next){
   var pieces_from_fen = fen_parser(req);
 
+  var fen = req.body.fen;
+  if (req.body.knightoption && req.body.knightoption === "EnglishN"){
+    fen = switch_EnglishN(fen);
+  }
+
   // write to tmp.txt
-  data = "BeginProblem\nStipulation " + req.body.stip + "\nProtocol " + path.join(dir, "out.txt") + "\nOption Noboard Variation\nforsyth " + req.body.fen + "\n" + req.body.conditions.replace(/&amp;/g,'&').replace(/<br>/g,'\n') + "\nEndProblem\n";
+  data = "BeginProblem\nStipulation " + req.body.stip + "\nProtocol " + path.join(dir, "out.txt") + "\nOption Noboard Variation\nforsyth " + fen + "\n" + req.body.conditions.replace(/&amp;/g,'&').replace(/<br>/g,'\n') + "\nEndProblem\n";
 
   fs.writeFileSync(path.join(dir, "tmp.txt"),data);
 
