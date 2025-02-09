@@ -133,7 +133,6 @@ var fen_parser = function(req){
     return ret;
   }
   
-  // TODO: parsing query. Should be improved
   var select_by_query = function(json_out,query,filenamelist){
     var filename = [];
     var ret = [];
@@ -144,8 +143,6 @@ var fen_parser = function(req){
     };
 
     var queryres = parser.parse(query,{},problems);
-    console.log("Query res:")
-    console.log(queryres);
 
     queryres.forEach(element => {
       ret.push(json_out[element]);

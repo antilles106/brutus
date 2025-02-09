@@ -1,22 +1,16 @@
 // Atomic Expression
-//Start
 
 PROGRAM = left:VAL INDENTATION? ops:OPS INDENTATION? right:PROGRAM{
-    if (ops === "OR"){
-        //if operation is "OR", the union of two files are returned.
+    if (["OR","Or","or"].indexOf(ops) != -1){
         return "Return Union!!!";
-    }else if (ops === "AND"){
-        //if operation is "OR", the union of two files are returned.
+    }else if (["AND","And","and"].indexOf(ops) != -1){
         return "Return Intersection!!!";
     }
-
 }
 /left:VAL INDENTATION? ops:OPS INDENTATION? right:VAL{
-    if (ops === "OR"){
-        //if operation is "OR", the union of two files are returned.
+    if (["OR","Or","or"].indexOf(ops) != -1){
         return "Return Union!!!";
-    }else if (ops === "AND"){
-        //if operation is "OR", the intersection of two files are returned.
+    }else if (["AND","And","and"].indexOf(ops) != -1){
         return "Return Intersection!!!";
     }
 }
@@ -30,7 +24,7 @@ VAL = "(" INDENTATION? atm:PROGRAM INDENTATION? ")"{
     return atm; 
 }
 
-ATOMIC = cols:COLS INDENTATION? "="  INDENTATION? "'" exprs:EXPRS "'"{
+ATOMIC = INDENTATION? cols:COLS INDENTATION? "="  INDENTATION? "'" exprs:EXPRS "'" INDENTATION?{
     // When Atomic is parsed, return JSON_out and filenamelist into OPTION
     return "Return Atomic!!!";
 }
@@ -38,6 +32,6 @@ ATOMIC = cols:COLS INDENTATION? "="  INDENTATION? "'" exprs:EXPRS "'"{
 COLS = "STIP" / "SOURCE" / "A" / "YEAR" / "MONTH"
 EXPRS = [A-Za-z0-9]+
 OPS = UNION/INTERSECTION
-UNION = "OR"
-INTERSECTION = "AND"
+UNION = "OR" / "Or" / "or"
+INTERSECTION = "AND" / "And" / "and"
 INDENTATION = [ \t]*

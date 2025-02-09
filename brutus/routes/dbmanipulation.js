@@ -59,9 +59,7 @@ router.post('/dbregisterfinish', function(req, res, next) {
     db.serialize(function () {
         var fen = req.body.fen;
         if (req.body.knightoption === "EnglishN"){
-          console.log(req.body);
           // "N" and the previous two letters are not "." -> "S"
-
           //one letter "N" to "S"
           for(let i=0;i<fen.length;i++){
             if (fen[i] === "N"){

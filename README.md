@@ -70,12 +70,18 @@
 - "Open Olive files": Click "Open Olive files" and you can load Olive files. You can also filter the Olive entry with a simple query.
 
 ### Query
-You can use the following query. If you use multiple queries, the entries which at least one query matches are selected.
+You can use the following query. 
 - "A='[Author name]'"
 - "SOURCE='[Source name]'"
 - "STIP='[Stipulation ]'"
 - "YEAR='[Year (e.g. 2024)]'"
 - "MONTH='[Month (e.g. 12)]'"
+- "AND" statement (can be written as "AND", "And", or "and")
+- "OR" statement (can be written as "OR", "Or", or "or")
+
+The examples of query are as follows:
+- "A='Doe' and STIP='H#'"
+- "(STIP='H' or STIP='S') and SOURCE='Problemist'"
 
 ## Disclaimer
  - The author shall not be liable for any trouble, loss and damage caused by the use of this software.
