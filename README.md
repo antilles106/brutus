@@ -26,6 +26,8 @@
 ├─images
 ├─javascripts
 │  └─brutus
+│      │ components/ #from SemanticUI
+│      │ themes/ #from SemanticUI
 │      │ gc-large.gif #from py2web
 │      │ gc-small.png #from py2web
 │      │ jquery.min.js 
