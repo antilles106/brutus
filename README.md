@@ -1,5 +1,6 @@
 # Brutus
  - v1.0.0 2025-02-07
+ - v1.0.1 2025-02-09
 
 ## Overview
  - Brutus is a software devoted to chess problems presentation. It can load [Olive](https://github.com/dturevski/olive-gui) files and create an input into py2web.
