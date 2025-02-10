@@ -33,6 +33,7 @@
 │      │ gc-small.png #from py2web
 │      │ jquery.min.js 
 |      | js-yaml.min.js
+│      │ parser.js
 │      │ py2web.css
 │      │ py2web.js
 |      | semantic.min.css

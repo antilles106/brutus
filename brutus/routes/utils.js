@@ -1,5 +1,3 @@
-const parser = require('./parser');
-
 var fen_parser = function(req){
     var white = [];
     var black = [];
@@ -140,14 +138,7 @@ var fen_parser = function(req){
     var filename = [];
     var ret = [];
 
-    var problems = {
-      "json_out":json_out,
-      "filenamelist":filenamelist
-    };
-
-    var queryres = parser.parse(query,{},problems);
-
-    queryres.forEach(element => {
+    query.forEach(element => {
       ret.push(json_out[element]);
       filename.push(filenamelist[element])
     });

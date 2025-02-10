@@ -5,10 +5,9 @@
 "use strict";
 
 var problems_for_query = [];
-var filenamelist_for_query = [];
 
 //return index of the selected problem
-function select_by_value(json_out,filename,key,expr){
+function select_by_value(json_out,key,expr){
   var ret = [];
   for(let i=0;i<json_out.length;i++){
     if (key === "STIP" && json_out[i].stipulation){
@@ -217,8 +216,7 @@ function peg$parse(input, options, problems) {
   options = options !== undefined ? options : {};
 
   //define as a global variable so that atomic function can read them
-  problems_for_query = problems.json_out;
-  filenamelist_for_query = problems.filenamelist;
+  problems_for_query = problems;
 
   var peg$FAILED = {};
   var peg$source = options.grammarSource;
@@ -284,7 +282,7 @@ function peg$parse(input, options, problems) {
 };
   var peg$f5 = function(cols, exprs) {
     // When Atomic is parsed, return JSON_out and filenamelist into OPTION
-    var ret = select_by_value(problems_for_query,filenamelist_for_query,cols,exprs.join(''));
+    var ret = select_by_value(problems_for_query,cols,exprs.join(''));
     // return "Return Atomic!!!";
     return ret;
 };
@@ -833,9 +831,3 @@ function peg$parse(input, options, problems) {
     );
   }
 }
-
-module.exports = {
-  StartRules: ["PROGRAM"],
-  SyntaxError: peg$SyntaxError,
-  parse: peg$parse
-};
