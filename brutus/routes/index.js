@@ -57,15 +57,16 @@ router.post('/queryresult',function(req,res,next){
   try{
     var json_out = yaml.loadAll(req.body.yaml);
     var filename = JSON.parse(req.body.filenamelist);
-    var query = req.body.query;
+    var query = JSON.parse(req.body.query);
 
     var json_select = select_by_query(json_out,query,filename);
     res.render('queryresult',{ title: 'Brutus',
       out_json:JSON.stringify(json_select.ret),
-      filenamelist:JSON.stringify(json_select.filename)});
+      filenamelist:JSON.stringify(json_select.filename),
+      probnum:query.length});
   }catch(e){
       dialog.showErrorBox("Query Parse Error", e.message);
-      res.render('fileopen',{ title: 'Brutus' });
+      res.render('fileopen',{ title: 'Brutus'});
   }
 
 });

@@ -3,6 +3,7 @@ html
   head
     title= title
     script(src="javascripts/brutus/jquery.min.js")
+    script(src="javascripts/brutus/parser.js")
     link(rel="stylesheet" href="javascripts/brutus/semantic.min.css" type="text/css")
     script(src="javascripts/brutus/semantic.min.js")
 
@@ -19,6 +20,19 @@ html
         })
         return doc.body.innerHTML;
       }
+
+      // Return Promise which get contents from a file
+      var fetchAsText = (file) => {
+        return new Promise((resolve) => {
+          var fr = new FileReader();
+          fr.onload = (e) => {
+            // resolve contents
+            resolve(e.currentTarget.result);
+          };
+          fr.readAsText(file);
+        });
+      };
+
     block chessjs
 
   body

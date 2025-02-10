@@ -2,19 +2,6 @@ extends layout
 
 block chessjs 
   script.
-    
-    // Return Promise which get contents from a file
-    var fetchAsText = (file) => {
-      return new Promise((resolve) => {
-        var fr = new FileReader();
-        fr.onload = (e) => {
-          // Resolve contents
-          resolve(e.currentTarget.result);
-        };
-        fr.readAsText(file);
-      });
-    };
-
     function changename(){
       probnum = 0;
       filenamelist = JSON.parse('!{filenamelist}');
@@ -37,9 +24,9 @@ block chessjs
         var td_stip = "";
         if (yaml_out[i].authors){
         for(let j=0;j<yaml_out[i].authors.length;j++){
-            if(length > 1){
-            td_authors += yaml_out[i].authors[j];
-            td_authors += ";" 
+            if(yaml_out[i].authors.length > 1){
+              td_authors += yaml_out[i].authors[j];
+              td_authors += "; " 
             }else{
             td_authors = yaml_out[i].authors[0];
             }
@@ -103,7 +90,8 @@ block content
   script.
     var tm = document.getElementById("fileopenmenu");
     tm.setAttribute("class","active item")
-  h1 Query Result
+  h1 Query Result:
+  h3 #{probnum} problem(s) found.
   div(class="ui segment" id="contentsegment")
     div(class="ui text container")
       form(class="ui form",id="popeyeform",action="popeye",method="POST")

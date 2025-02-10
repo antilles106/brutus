@@ -2,17 +2,7 @@ extends layout
 
 block chessjs 
   script.
-    // Return Promise which get contents from a file
-    var fetchAsText = (file) => {
-      return new Promise((resolve) => {
-        var fr = new FileReader();
-        fr.onload = (e) => {
-          // resolve contents
-          resolve(e.currentTarget.result);
-        };
-        fr.readAsText(file);
-      });
-    };
+
     var filenamelist = [];
 
     async function changename(){
@@ -138,9 +128,9 @@ block content
             button(class="ui primary button", onClick="popeyeSubmit();") Solve(Experimental)
           textarea(id="olivecontent" hidden)
       div(class="ui divider")
-      form(class="ui form",id="queryform" method="POST")
+      form(class="ui form",id="queryform")
         input(type="text" id="querystring" placeholder="Set a query like A='Caillaud' SOURCE='Problemist' STIP='HS' YEAR='2024' MONTH='8'")
-        button(class="ui primary button",onClick="querySubmit();") Query submit
+      button(class="ui primary button",onClick="querySubmit();") Query submit
     div(class="ui segment")
       div(style="height:300px;overflow-x: scroll;")
         table(class="ui table")
@@ -174,15 +164,22 @@ block content
       request_filename.name = "filenamelist";
       request_filename.value = JSON.stringify(filenamelist);
 
-      var request_query = document.createElement('input');
-      request_query.type = 'hidden';
-      request_query.name = "query";
-      request_query.value = document.getElementById("querystring").value;
 
-      form.appendChild(request_yaml);
-      form.appendChild(request_filename);
-      form.appendChild(request_query);
-      form.submit();
+      try{
+        ret = peg$parse(document.getElementById("querystring").value,{},jsyaml.loadAll(document.getElementById("olivecontent").value));
+        var request_query = document.createElement('input');
+        request_query.type = 'hidden';
+        request_query.name = "query";
+        request_query.value = JSON.stringify([...ret]);
+        form.appendChild(request_yaml);
+        form.appendChild(request_filename);
+        form.appendChild(request_query);
+        form.submit();
+      }catch(e){
+        alert("Error:" + e.message);
+        //stop submission
+        return false;
+      }
     }
 
     function fileResult(){
