@@ -105,32 +105,42 @@ block content
   script.
     var tm = document.getElementById("fileopenmenu");
     tm.setAttribute("class","active item")
-  h1 Open Olive file
   div(class="ui segment" id="contentsegment")
+    h1 Open Olive file
     div(class="ui text container")
       p Please select Olive files.
-      div(class="ui centered grid")
-        p(id="dispfilename") No file selected.
-        div
-          label(class="ui olive button" id="#fileopenbutton" for='fileopeninput') Open Olive files
+      div(class="ui grid")
+        div(class="twelve wide column")
+          p(id="dispfilename") No file selected.
+        div(class="four wide column")
+          label(class="ui right floated olive button" id="#fileopenbutton" for='fileopeninput') Open Olive files
           input(type="file" id="fileopeninput" hidden multiple accept=".olv" onchange="changename()")
       div(class="ui divider")
-      form(class="ui form",id="popeyeform",action="popeye",method="POST")
-        div(class="default text") problem ID
-        div(class="two fields")
-          div(class="ui selection dropdown")
-            input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
-            i(class="dropdown icon")
-            div(class="default text") problem ID
-            div(class="menu" id="dropdownmenu")
-          div(class="field")
-            button(type="button", class="ui primary button", onClick="fileResult();") Show Directly
-            button(class="ui primary button", onClick="popeyeSubmit();") Solve(Experimental)
-          textarea(id="olivecontent" hidden)
+      div(class="ui grid")
+        div(class="four wide column")
+          p Solve:
+        div(class="four wide column")
+          form(class="ui form",id="popeyeform",action="popeye",method="POST")
+            div(class="field")
+              div(class="ui selection dropdown")
+                input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
+                i(class="dropdown icon")
+                div(class="default text") problem ID
+                div(class="menu" id="dropdownmenu")
+        div(class="four wide column")
+          button(type="button", class="ui right floated primary button", onClick="fileResult();") Show Directly
+        div(class="four wide column")
+          button(class="ui right floated primary button", onClick="popeyeSubmit();") Solve(Experimental)
+        textarea(id="olivecontent" hidden)
       div(class="ui divider")
-      form(class="ui form",id="queryform")
-        input(type="text" id="querystring" placeholder="Set a query like A='Caillaud' SOURCE='Problemist' STIP='HS' YEAR='2024' MONTH='8'")
-      button(class="ui primary button",onClick="querySubmit();") Query submit
+      div(class="ui grid")
+        div(class="four wide column")
+          p Query:
+        div(class="eight wide column")
+          form(class="ui form",id="queryform")
+            input(type="text" id="querystring" placeholder="A='Caillaud' and SOURCE='Problemist'")
+        div(class="four wide column")
+          button(class="ui right floated primary button",onClick="querySubmit();") Query submit
     div(class="ui segment")
       div(style="height:300px;overflow-x: scroll;")
         table(class="ui table")

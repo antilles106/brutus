@@ -18,7 +18,7 @@ myapp.on('window-all-closed', function() {
 });
  
 myapp.on('ready', function() {
-  mainWindow = new BrowserWindow({width: 1100, height: 700,
+  mainWindow = new BrowserWindow({width: 1100, height: 800,
     webPreferences: { nodeIntegration : false } 
   });
   mainWindow.loadURL('http://127.0.0.1:3000');

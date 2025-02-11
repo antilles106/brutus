@@ -1,6 +1,7 @@
 # Brutus
  - v1.0.0 2025-02-07
  - v1.0.1 2025-02-09
+ - v1.0.2 2025-02-11
 
 ## Overview
  - Brutus is a software devoted to chess problems presentation. It can load [Olive](https://github.com/dturevski/olive-gui) files and create an input into py2web.
@@ -44,6 +45,7 @@
 
 ## How to run
 ### Development environment(npm)
+ - As a prerequisite, Node.js is necessary.
  - change directory to brutus and run:
  ```powershell
    npm install

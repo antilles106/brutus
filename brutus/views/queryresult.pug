@@ -90,23 +90,26 @@ block content
   script.
     var tm = document.getElementById("fileopenmenu");
     tm.setAttribute("class","active item")
-  h1 Query Result:
-  h3 #{probnum} problem(s) found.
   div(class="ui segment" id="contentsegment")
+    h1 Query Result:
+    h3 #{probnum} problem(s) found.
     div(class="ui text container")
-      form(class="ui form",id="popeyeform",action="popeye",method="POST")
-        div(class="default text") problem ID
-        div(class="two fields")
-          div(class="ui selection dropdown")
-            input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
-            i(class="dropdown icon")
-            div(class="default text") problem ID
-            div(class="menu" id="dropdownmenu")
-          div(class="field")
-            button(type="button", class="ui primary button", onClick="fileResult();") Show Directly
-            button(class="ui primary button", onClick="popeyeSubmit();") Solve(Experimental)
-          textarea(id="olivecontent" hidden)
-  div(class="ui segment" id="contentsegment")
+      div(class="ui grid")
+        div(class="four wide column")
+          p Solve:
+        div(class="four wide column")
+          form(class="ui form",id="popeyeform",action="popeye",method="POST")
+            div(class="field")
+              div(class="ui selection dropdown")
+                input(type="hidden",name="popeye_id",placeholder="1",id="popeye_id")
+                i(class="dropdown icon")
+                div(class="default text") problem ID
+                div(class="menu" id="dropdownmenu")
+        div(class="four wide column")
+          button(type="button", class="ui right floated primary button", onClick="fileResult();") Show Directly
+        div(class="four wide column")
+          button(class="ui right floated primary button", onClick="popeyeSubmit();") Solve(Experimental)
+        textarea(id="olivecontent" hidden)
     div(class="ui segment")
       div(style="height:300px;overflow-x: scroll;")
         table(class="ui table")
@@ -119,8 +122,7 @@ block content
               th Date
               th Stipulation
           tbody(id="main_tbody")
-  div(class="ui text container")
-    button(class="ui negative button", onclick="javascript:history.back();") Back to Olive file list
+      button(class="ui negative button", onclick="javascript:history.back();") Back to Olive file list
 
   script.
     $('.ui.dropdown').dropdown();
