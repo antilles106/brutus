@@ -34,6 +34,7 @@
 │      │ gc-small.png #from py2web
 │      │ jquery.min.js 
 |      | js-yaml.min.js
+|      | queryfunc.js
 │      │ parser.js
 │      │ py2web.css
 │      │ py2web.js
@@ -74,18 +75,21 @@
 - "Open Olive files": Click "Open Olive files" and you can load Olive files. You can also filter the Olive entry with a simple query.
 
 ### Query
-You can use the following query. 
+You can use the following query. All words are case-insensitive. 
 - "A='[Author name]'"
 - "SOURCE='[Source name]'"
 - "STIP='[Stipulation ]'"
 - "YEAR='[Year (e.g. 2024)]'"
 - "MONTH='[Month (e.g. 12)]'"
-- "AND" statement (can be written as "AND", "And", or "and")
-- "OR" statement (can be written as "OR", "Or", or "or")
+- "DATE='[Month/Year (e.g. 1/2025)]'"
+- "AND" statement 
+- "OR" statement 
+- "ORDER BY [COLUMN ] (ASC|DESC)"
 
 The examples of query are as follows:
 - "A='Doe' and STIP='H#'"
 - "(STIP='H' or STIP='S') and SOURCE='Problemist'"
+- "SOURCE='Problem Paradise' order by date asc"
 
 ## Disclaimer
  - The author shall not be liable for any trouble, loss and damage caused by the use of this software.

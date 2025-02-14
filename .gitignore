@@ -133,6 +133,7 @@ brutus/node_modules/*
 brutus/out/*
 brutus/public/javascripts/brutus/*
 !brutus/public/javascripts/brutus/parser.js
+!brutus/public/javascripts/brutus/queryfunc.js
 brutus/sqlite3.db
 brutus/pywin64.exe
 brutus/out.txt

@@ -1,16 +1,22 @@
 // Atomic Expression
 
-PROGRAM = left:VAL INDENTATION? ops:OPS INDENTATION? right:PROGRAM{
-    if (["OR","Or","or"].indexOf(ops) != -1){
+PROGRAM = out:SELECT INDENTATION? "ORDER BY"i INDENTATION? cols:COLS INDENTATION? sort_style:SORT_STYLE{
+	return sort_style;
+}/out:SELECT{
+	return out;
+}
+
+SELECT = left:VAL INDENTATION? ops:OPS INDENTATION? right:SELECT{
+    if (ops.toLowerCase() == "or"){
         return "Return Union!!!";
-    }else if (["AND","And","and"].indexOf(ops) != -1){
+    }else if (ops.toLowerCase() == "and"){
         return "Return Intersection!!!";
     }
 }
 /left:VAL INDENTATION? ops:OPS INDENTATION? right:VAL{
-    if (["OR","Or","or"].indexOf(ops) != -1){
+    if (ops.toLowerCase() == "or"){
         return "Return Union!!!";
-    }else if (["AND","And","and"].indexOf(ops) != -1){
+    }else if (ops.toLowerCase() == "and"){
         return "Return Intersection!!!";
     }
 }
@@ -18,20 +24,29 @@ PROGRAM = left:VAL INDENTATION? ops:OPS INDENTATION? right:PROGRAM{
     return "Return Raw Value!!!";
 }
 
-VAL = "(" INDENTATION? atm:PROGRAM INDENTATION? ")"{
+VAL = "(" INDENTATION? atm:SELECT INDENTATION? ")"{
     return atm;
 }/atm:ATOMIC{
     return atm; 
 }
 
-ATOMIC = INDENTATION? cols:COLS INDENTATION? "="  INDENTATION? "'" exprs:EXPRS "'" INDENTATION?{
+ATOMIC = INDENTATION? cols:COLS INDENTATION? EQ  INDENTATION? "'" exprs:EXPRS "'" INDENTATION?{
     // When Atomic is parsed, return JSON_out and filenamelist into OPTION
     return "Return Atomic!!!";
 }
+/INDENTATION? cols:INEQ_COLS INDENTATION? ineq:INEQ INDENTATION? "'" exprs:EXPRS "'" INDENTATION?{
+    // When Atomic is parsed, return JSON_out and filenamelist into OPTION
+    return "Return Ineq Atomic!!!";
+}
 
-COLS = "STIP" / "SOURCE" / "A" / "YEAR" / "MONTH"
-EXPRS = [A-Za-z0-9]+
+COLS = "STIP"i / "SOURCE"i / "A"i / NUM_COLS
+EXPRS = [A-Za-z0-9#/]+
 OPS = UNION/INTERSECTION
-UNION = "OR" / "Or" / "or"
-INTERSECTION = "AND" / "And" / "and"
+UNION = "OR"i
+INTERSECTION = "AND"i
 INDENTATION = [ \t]*
+SORT_STYLE = "ASC"i/"DESC"i
+INEQ_COLS = NUM_COLS
+NUM_COLS = "YEAR"i / "MONTH"i / "DATE"i
+EQ = "="
+INEQ = ">=" / "<=" /">" / "<"
