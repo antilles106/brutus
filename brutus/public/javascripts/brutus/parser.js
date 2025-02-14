@@ -199,7 +199,7 @@ function peg$parse(input, options, problems) {
   var peg$c16 = "<=";
   var peg$c17 = "*";
 
-  var peg$r0 = /^[A-Za-z0-9#\/ ]/;
+  var peg$r0 = /^[A-Za-z0-9#\/\. ]/;
   var peg$r1 = /^[ \t]/;
   var peg$r2 = /^[<>]/;
 
