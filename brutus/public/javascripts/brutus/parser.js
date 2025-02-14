@@ -216,7 +216,7 @@ function peg$parse(input, options, problems) {
   var peg$e15 = peg$literalExpectation("DESC", true);
 
   var peg$f0 = function(out, cols, sort_style) {
-	return prob_sort(out,cols,sort_style);
+	return prob_sort(problems_for_query,out,cols,sort_style);
 };
   var peg$f1 = function(out) {
 	return out;

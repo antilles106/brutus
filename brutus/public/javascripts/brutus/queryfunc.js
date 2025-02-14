@@ -40,69 +40,71 @@ function select_by_value(json_out,key,expr){
     return rset;
   }
   
-  function prob_sort(problems,col,sort_style){
-    return [...problems].toSorted((a,b)=>{
+  function prob_sort(problems,num,col,sort_style){
+    return [...num].toSorted((a,b)=>{
       var ans;
       if (col.toLowerCase() === "stip"){
-        if (a.stipulation > b.stipulation){
+        if (problems[a].stipulation > problems[b].stipulation){
           ans = 1;
-        }else if (a.stipulation < b.stipulation){
+        }else if (problems[a].stipulation < problems[b].stipulation){
           ans = -1;
         }else {
           ans = 0;
         }
       }else if (col.toLowerCase() === "a"){
-        if (a.authors && b.authors === void 0){
+        if (problems[a].authors && problems[b].authors === void 0){
           ans = -1;
-        }else if (a.authors === void 0 && b.authors){
+        }else if (problems[a].authors === void 0 && problems[b].authors){
           ans = 1;
-        }else if (a.authors === void 0 && b.authors === void 0){
+        }else if (problems[a].authors === void 0 && problems[b].authors === void 0){
           ans = 0;
-        }else if (a.authors[0] > b.authors[0]){
+        }else if (problems[a].authors[0] > problems[b].authors[0]){
           ans = 1;
-        }else if (a.authors[0] < b.authors[0]){
+        }else if (problems[a].authors[0] < problems[b].authors[0]){
           ans = -1;
         }else {
           ans = 0;
         }
       }else if (col.toLowerCase() === "source"){
-        if (a.source && b.source === void 0){
+        console.log(a);
+        console.log(b);
+        if (problems[a].source && problems[b].source === void 0){
           ans = -1;
-        }else if (a.source === void 0 && b.source){
+        }else if (problems[a].source === void 0 && problems[b].source){
           ans = 1;
-        }else if (a.source === void 0 && b.source === void 0){
+        }else if (problems[a].source === void 0 && problems[b].source === void 0){
           ans = 0;
-        }else if (a.source.name > b.source.name){
+        }else if (problems[a].source.name > problems[b].source.name){
           ans = 1;
-        }else if (a.source.name < b.source.name){
+        }else if (problems[a].source.name < problems[b].source.name){
           ans = -1;
         }else {
           ans = 0;
         }
       }else if (col.toLowerCase() === "year"){
-        if (a.source && b.source === void 0){
+        if (problems[a].source && problems[b].source === void 0){
           ans = -1;
-        }else if (a.source === void 0 && b.source){
+        }else if (problems[a].source === void 0 && problems[b].source){
           ans = 1;
-        }else if (a.source === void 0 && b.source === void 0){
+        }else if (problems[a].source === void 0 && problems[b].source === void 0){
           ans = 0;
-        }else if (a.source.year > b.source.year){
+        }else if (problems[a].source.year > problems[b].source.year){
           ans = 1;
-        }else if (a.source.year < b.source.year){
+        }else if (problems[a].source.year < problems[b].source.year){
           ans = -1;
         }else {
           ans = 0;
         }
       }else if (col.toLowerCase() === "month"){
-        if (a.source && b.source === void 0){
+        if (problems[a].source && problems[b].source === void 0){
           ans = -1;
-        }else if (a.source === void 0 && b.source){
+        }else if (problems[a].source === void 0 && problems[b].source){
           ans = 1;
-        }else if (a.source === void 0 && b.source === void 0){
+        }else if (problems[a].source === void 0 && problems[b].source === void 0){
           ans = 0;
-        }else if (a.source.month > b.source.month){
+        }else if (problems[a].source.month > problems[b].source.month){
           ans = 1;
-        }else if (a.source.month < b.source.month){
+        }else if (problems[a].source.month < problems[b].source.month){
           ans = -1;
         }else {
           ans = 0;
