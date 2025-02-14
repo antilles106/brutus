@@ -41,7 +41,7 @@ ATOMIC = INDENTATION? ALL INDENTATION?{
     return select_by_ineq_value(problems_for_query,cols,ineq,exprs.join(''));
 }
 COLS = "STIP"i / "SOURCE"i / "A"i / NUM_COLS
-EXPRS = [A-Za-z0-9#/]+
+EXPRS = [A-Za-z0-9#/. ]+
 OPS = UNION/INTERSECTION
 UNION = "OR"i
 INTERSECTION = "AND"i
