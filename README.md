@@ -90,7 +90,7 @@ You can use the following query. All words are case-insensitive.
 The examples of query are as follows:
 - "A='Doe' and STIP='H#'"
 - "(STIP='H' or STIP='S') and SOURCE='Problemist'"
-- "SOURCE='Problem Paradise' order by date asc"
+- "* order by date asc"
 
 ## Disclaimer
  - The author shall not be liable for any trouble, loss and damage caused by the use of this software.
