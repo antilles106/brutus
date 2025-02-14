@@ -82,6 +82,7 @@ You can use the following query. All words are case-insensitive.
 - "YEAR='[Year (e.g. 2024)]'"
 - "MONTH='[Month (e.g. 12)]'"
 - "DATE='[Month/Year (e.g. 1/2025)]'"
+- "*" suggests all entries
 - "AND" statement 
 - "OR" statement 
 - "ORDER BY [COLUMN ] (ASC|DESC)"
