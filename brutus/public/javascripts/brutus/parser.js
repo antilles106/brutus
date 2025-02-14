@@ -172,7 +172,7 @@ function peg$parse(input, options, problems) {
   options = options !== undefined ? options : {};
 
   //define as a global variable so that atomic function can read them
-  problems_for_query = problems;
+  problems_for_query = problems; 
 
   var peg$FAILED = {};
   var peg$source = options.grammarSource;
@@ -198,7 +198,7 @@ function peg$parse(input, options, problems) {
   var peg$c15 = ">=";
   var peg$c16 = "<=";
 
-  var peg$r0 = /^[A-Za-z0-9#\/]/;
+  var peg$r0 = /^[A-Za-z0-9#\/ ]/;
   var peg$r1 = /^[ \t]/;
   var peg$r2 = /^[<>]/;
 
@@ -253,7 +253,6 @@ function peg$parse(input, options, problems) {
   var peg$f8 = function(cols, ineq, exprs) {
     // When Atomic is parsed, return JSON_out and filenamelist into OPTION
     return select_by_ineq_value(problems_for_query,cols,ineq,exprs.join(''));
-    // return "Return Ineq Atomic!!!";
 };
   var peg$currPos = options.peg$currPos | 0;
   var peg$savedPos = peg$currPos;
