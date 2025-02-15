@@ -2,6 +2,7 @@
  - v1.0.0 2025-02-07
  - v1.0.1 2025-02-09
  - v1.0.2 2025-02-11
+ - v1.0.3 2025-02-16
 
 ## Overview
  - Brutus is a software devoted to chess problems presentation. It can load [Olive](https://github.com/dturevski/olive-gui) files and create an input into py2web.
@@ -32,14 +33,14 @@
 │      │ themes/ #from SemanticUI
 │      │ gc-large.gif #from py2web
 │      │ gc-small.png #from py2web
-│      │ jquery.min.js 
-|      | js-yaml.min.js
+│      │ jquery.min.js #from JQuery
+|      | js-yaml.min.js #from js-yaml
 |      | queryfunc.js
 │      │ parser.js
-│      │ py2web.css
-│      │ py2web.js
-|      | semantic.min.css
-|      | semantic.min.js
+│      │ py2web.css #from py2web
+│      │ py2web.js #from py2web
+|      | semantic.min.css #from SemanticUI
+|      | semantic.min.js #from SemanticUI
 └─stylesheets
         style.css
 ```
