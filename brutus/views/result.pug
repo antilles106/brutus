@@ -47,9 +47,10 @@ block chessjs
         //- console.log(JSON.stringify(glyph_ary));
         for(var elm of document.getElementsByName("pgmode")){
           if(elm.value === "PG" && elm.checked){
-            //- full-move="wb" start-node="first"
+            //If PG, set solution start-node to last and overwrite pieces to those of start position
             document.getElementById('demo-solution').setAttribute('full-move',"wb");
             document.getElementById('demo-solution').setAttribute('start-node',"last");
+            document.getElementById('demo-board').innerHTML = "white  Rh1a1 Sg1b1 Bf1c1 Ke1 Qd1 Ph2g2f2e2d2c2b2a2\n black Ph7g7f7e7d7c7b7a7 Rh8a8 Sg8b8 Bf8c8 Ke8 Qd8";
           }
         }
         Py2Web.init('#demo')
