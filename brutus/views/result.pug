@@ -23,13 +23,36 @@ block chessjs
           black_len = 0
         }
 
+        // set glyphs
+        var glyph_set = document.getElementById("py-glyphs").value;
+        var messages = glyph_set.split(/\r?\n/);
+        var glyph_ary = {};
+        for(let i=0;i<messages.length;i++){
+            if(messages[i].length != 0){
+            glyph_ary[sanitize(messages[i].split(/:/)[0].toLowerCase().trim())] = sanitize(
+              messages[i].split(/:/)[1].toLowerCase().trim());
+            }
+        }
+
         $('#demo').html('')
           .append($("<div>").addClass("p2w-diagram")
             .attr('id', 'demo-board').html($("#py-pieces").val()))
           .append($("#py-stip").clone().val())
           .append(" (").append(white_len).append("+").append(black_len).append(")").append("<br><br>")
-          .append($("<div>").addClass("p2w-solution")
+          .append($("<div>").addClass("p2w-solution").attr('id', 'demo-solution')
             .attr('target', 'demo-board').html($("#py-output").val()))		
+
+        document.getElementById('demo-board').setAttribute('glyphs',JSON.stringify(glyph_ary));
+
+        //- console.log(JSON.stringify(glyph_ary));
+        for(var elm of document.getElementsByName("pgmode")){
+          if(elm.value === "PG" && elm.checked){
+            //If PG, set solution start-node to last and overwrite pieces to those of start position
+            document.getElementById('demo-solution').setAttribute('full-move',"wb");
+            document.getElementById('demo-solution').setAttribute('start-node',"last");
+            document.getElementById('demo-board').innerHTML = "white  Rh1a1 Sg1b1 Bf1c1 Ke1 Qd1 Ph2g2f2e2d2c2b2a2\n black Ph7g7f7e7d7c7b7a7 Rh8a8 Sg8b8 Bf8c8 Ke8 Qd8";
+          }
+        }
         Py2Web.init('#demo')
         $('#pbtitle').replaceWith('<div id="pbtitle">' + $("#py-titles").clone().val() + '</div>')
       })
@@ -72,7 +95,26 @@ block content
                 div(class="field")
                   label Solution:
                   textarea(rows="5",cols="30",id="py-output")=my_solution
+                div(class="ui accordion")
+                  div(class="title")
+                    i(class="dropdown icon")
+                    .
+                      Advanced:
+                  div(class="content")
+                    div(class="field")
+                      label Mode:
+                      div(class="ui radio checkbox")
+                        input(type="radio" name="pgmode" value="PG")
+                        label PG &nbsp;&nbsp;
+                      div(class="ui radio checkbox")
+                        input(type="radio" name="pgmode" value="others" checked="checked")
+                        label others
+                    div(class="field")
+                      label Glyphs:
+                      textarea(rows="3" id="py-glyphs")
                 div(class="ui grid")
                   div(class="one column row")
                     div(class="right aligned column")
                       button(class="ui primary button",id="btnP2wDemo") Show diagram and solution
+  script.
+    $('.ui.accordion').accordion();

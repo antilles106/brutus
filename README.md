@@ -12,7 +12,7 @@
  - [Show a problem](README_imgs/ss3.png)
 
 ## Functions
- - It can show problems from a Forsyth string with a movable board (using py2web).
+ - It can show problems from a Forsyth string with a board (using py2web).
  - It can load Olive files and make a simple query to them.
  - It has an internal database, which can store problems.
  - Brutus includes a web server and it listens on port 127.0.0.1:3000 (so the other hosts cannot access to the server), but it can be used offline.
@@ -68,7 +68,7 @@
 - Please execute brutus-win32-64/brutus.exe (For Windows).
 
 ## How to use
-- "Show Problem": Put Pieces and Solution (in the Popeye style) and click "Show diagram and solution", and you can show the problem with py2web style.
+- "Show Problem": Put Pieces and Solution (in the Popeye style) and click "Show diagram and solution", and you can show the problem with py2web style. If you want to show proofgames, please fill the solution only and set Advanced -> mode to PG. If you want to change the glyph of the fairy piece, please set Advanced -> glyphs.
 - "Register to DB": Put the problem's information and you can store the problem in the internal database.
 - "Solve from FEN": Put Forsyth and the stipulation and condition and click "submit" and you can show diagram and solution.
 - "Solve from DB": Click "+" Button and you can register a problem to the internal DB. Set Problem ID and click "Solve" button and you can show diagram and solution.
